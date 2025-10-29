@@ -111,7 +111,10 @@ public class WorkPriorityUpdater(Map map) : MapComponent(map)
         var relevantRules = new List<WorkTypeAssignmentRule>();
         foreach (var workType in WorkManagerGameComponent.Instance.DedicatedWorkTypes)
         {
-            relevantRules.Add(_managedWorkTypeRules[workType]);
+            if (_managedWorkTypeRules.TryGetValue(workType, out var rule))
+            {
+                relevantRules.Add(rule);
+            }
         }
         if (relevantRules.Count == 0) return;
         relevantRules.Sort(WorkManagerGameComponent.WorkTypeAssignmentRuleComparer);
